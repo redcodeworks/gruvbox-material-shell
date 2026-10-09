@@ -1,0 +1,134 @@
+/* Gruvbox Material recolor of real GNOME Shell CSS (light mode).
+ * See gnome-shell-dark.css for the full explanation of this approach --
+ * this file only overrides color declarations on top of the real
+ * gresource-baked default (frozen in ../reference/gnome-shell-light.css),
+ * leaving all structural CSS untouched.
+ */
+
+@define-color accent_bg_color #45707a;
+@define-color accent_fg_color #f9f5d7;
+
+@define-color destructive_bg_color #c14a4a;
+@define-color success_bg_color #6c782e;
+@define-color warning_bg_color #b47109;
+@define-color error_bg_color #c14a4a;
+
+@define-color window_bg_color #f5edca;
+@define-color window_fg_color #4f3829;
+
+@define-color view_bg_color #f9f5d7;
+@define-color view_fg_color #4f3829;
+
+@define-color card_bg_color #f9f5d7;
+@define-color card_fg_color #4f3829;
+
+@define-color dialog_bg_color #f5edca;
+@define-color dialog_fg_color #4f3829;
+
+@define-color popover_bg_color #f9f5d7;
+@define-color popover_fg_color #4f3829;
+
+/* Shell-specific: the top bar/dash/popup tier. Equals window_bg_color. */
+@define-color panel_bg_color #f5edca;
+@define-color panel_fg_color #4f3829;
+
+/* ===== Top Bar ===== */
+#panel {
+    background-color: @panel_bg_color;
+}
+#panel .panel-button {
+    color: @panel_fg_color;
+}
+
+/* ===== Popup menus (Quick Settings, Calendar/date-menu, desktop
+   right-click menu, and regular context menus all share this one stock
+   rule). ===== */
+.popup-menu {
+    color: @popover_fg_color;
+}
+.popup-menu-content,
+.candidate-popup-content {
+    background-color: @popover_bg_color;
+}
+.popup-menu-item:hover,
+.popup-menu-item:selected,
+.popup-menu-item:checked {
+    color: @popover_fg_color;
+    background-color: st-darken(@popover_bg_color, 7%);
+}
+.popup-menu-item:active {
+    color: @popover_fg_color;
+    background-color: st-darken(@popover_bg_color, 9%);
+}
+.popup-menu-item:active:hover {
+    background-color: st-darken(st-darken(@popover_bg_color, 9%), 7%);
+}
+.popup-menu-item:insensitive {
+    color: st-transparentize(@popover_fg_color, 0.5);
+    background-color: @popover_bg_color;
+}
+
+/* ===== Dash (stock #dash; dash-to-dock, if installed, replaces this
+   actor entirely with its own but reuses the same .dash-background
+   class when "Use built-in theme" is enabled) ===== */
+#dash .dash-background {
+    background-color: @panel_bg_color;
+}
+#dashtodockContainer #dash .dash-background,
+#dashtodockContainer.dashtodock #dash .dash-background {
+    background-color: @panel_bg_color;
+}
+
+/* ===== Tooltips (dash item labels, window captions, screenshot tooltips
+   -- one shared stock rule). Stock keeps this dark even in light mode
+   (it's a floating overlay, not a page surface) -- matched here. ===== */
+.dash-label,
+.window-caption,
+.screenshot-ui-tooltip {
+    background-color: #3c3836;
+    color: #ddc7a1;
+}
+
+/* ===== Overview background. Stock stays dark-toned here even in light
+   mode; per explicit request earlier in this project ("the overview
+   background is currently black, can this be changed?") this instead
+   follows the active light/dark mode like every other surface. ===== */
+#overviewGroup {
+    background-color: @view_bg_color;
+}
+
+/* ===== App folder dialog (app grid folder popup) ===== */
+.app-folder-dialog {
+    background-color: @card_bg_color;
+    color: @card_fg_color;
+}
+
+/* ===== OSD (volume/brightness popup), Alt-Tab switcher, workspace
+   switcher, screenshot UI panel, resize popup, and Looking Glass all
+   share this one stock rule. Stock keeps these dark-toned even in light
+   mode (floating overlays, not page surfaces) -- matched here. ===== */
+#LookingGlassDialog,
+.screenshot-ui-panel,
+.workspace-switcher,
+.switcher-list,
+.resize-popup,
+.osd-window {
+    color: #ddc7a1;
+    background-color: #3c3836;
+}
+
+/* ===== Lock screen ===== */
+#lockDialogGroup {
+    background-color: @view_bg_color;
+}
+
+/* ===== Notification banners/cards (3 stack tiers) ===== */
+.message {
+    background-color: @card_bg_color;
+}
+.message:second-in-stack {
+    background-color: @dialog_bg_color;
+}
+.message:lower-in-stack {
+    background-color: @card_bg_color;
+}

@@ -1,0 +1,143 @@
+/* Gruvbox Material recolor of real GNOME Shell CSS (dark mode).
+ *
+ * This file does NOT reimplement GNOME Shell's structural CSS. GNOME
+ * Shell's theme loading is additive (see the user-theme extension's
+ * Main.setThemeStylesheet()/Main.loadTheme() -- St.Theme's default/user/
+ * extension three-tier stylesheet cascade): this file layers on top of
+ * the real gresource-baked default (frozen verbatim in ../reference/
+ * gnome-shell-dark.css for comparison), so any selector not mentioned
+ * here falls through to real, current Adwaita behavior automatically --
+ * padding, radius, animations, hover states, everything structural.
+ * Only color declarations live here, and only for the selectors that
+ * actually carry a color in the stock file.
+ *
+ * Palette: Gruvbox Material (github.com/sainnhe/gruvbox-material),
+ * "material" foreground variant, "hard" contrast background -- same
+ * values and same token names as nox-dotfiles' gtk-4.0/gtk.css, so the
+ * two layers are trivially easy to keep in sync by eye.
+ */
+
+@define-color accent_bg_color #7daea3;
+@define-color accent_fg_color #1d2021;
+
+@define-color destructive_bg_color #ea6962;
+@define-color success_bg_color #a9b665;
+@define-color warning_bg_color #d8a657;
+@define-color error_bg_color #ea6962;
+
+@define-color window_bg_color #282828;
+@define-color window_fg_color #ddc7a1;
+
+@define-color view_bg_color #1d2021;
+@define-color view_fg_color #ddc7a1;
+
+@define-color card_bg_color #3c3836;
+@define-color card_fg_color #ddc7a1;
+
+@define-color dialog_bg_color #504945;
+@define-color dialog_fg_color #ddc7a1;
+
+@define-color popover_bg_color #504945;
+@define-color popover_fg_color #ddc7a1;
+
+/* Shell-specific: the top bar/dash/popup tier. Equals window_bg_color --
+   kept as its own token since "panel" is a Shell concept, not a GTK4 one. */
+@define-color panel_bg_color #282828;
+@define-color panel_fg_color #ddc7a1;
+
+/* ===== Top Bar ===== */
+#panel {
+    background-color: @panel_bg_color;
+}
+#panel .panel-button {
+    color: @panel_fg_color;
+}
+
+/* ===== Popup menus (Quick Settings, Calendar/date-menu, desktop
+   right-click menu, and regular context menus all share this one stock
+   rule -- confirmed via reference/gnome-shell-dark.css, none of them set
+   their own background independently). ===== */
+.popup-menu {
+    color: @popover_fg_color;
+}
+.popup-menu-content,
+.candidate-popup-content {
+    background-color: @popover_bg_color;
+}
+.popup-menu-item:hover,
+.popup-menu-item:selected,
+.popup-menu-item:checked {
+    color: @popover_fg_color;
+    background-color: st-lighten(@popover_bg_color, 7%);
+}
+.popup-menu-item:active {
+    color: @popover_fg_color;
+    background-color: st-lighten(@popover_bg_color, 9%);
+}
+.popup-menu-item:active:hover {
+    background-color: st-lighten(st-lighten(@popover_bg_color, 9%), 7%);
+}
+.popup-menu-item:insensitive {
+    color: st-transparentize(@popover_fg_color, 0.5);
+    background-color: @popover_bg_color;
+}
+
+/* ===== Dash (stock #dash; dash-to-dock, if installed, replaces this
+   actor entirely with its own but reuses the same .dash-background
+   class when "Use built-in theme" is enabled) ===== */
+#dash .dash-background {
+    background-color: @panel_bg_color;
+}
+#dashtodockContainer #dash .dash-background,
+#dashtodockContainer.dashtodock #dash .dash-background {
+    background-color: @panel_bg_color;
+}
+
+/* ===== Tooltips (dash item labels, window captions, screenshot tooltips
+   -- one shared stock rule) ===== */
+.dash-label,
+.window-caption,
+.screenshot-ui-tooltip {
+    background-color: @panel_bg_color;
+    color: @panel_fg_color;
+}
+
+/* ===== Overview background ===== */
+#overviewGroup {
+    background-color: @view_bg_color;
+}
+
+/* ===== App folder dialog (app grid folder popup) ===== */
+.app-folder-dialog {
+    background-color: @card_bg_color;
+    color: @card_fg_color;
+}
+
+/* ===== OSD (volume/brightness popup), Alt-Tab switcher, workspace
+   switcher, screenshot UI panel, resize popup, and Looking Glass all
+   share this one stock rule. ===== */
+#LookingGlassDialog,
+.screenshot-ui-panel,
+.workspace-switcher,
+.switcher-list,
+.resize-popup,
+.osd-window {
+    color: @panel_fg_color;
+    background-color: @panel_bg_color;
+}
+
+/* ===== Lock screen ===== */
+#lockDialogGroup {
+    background-color: @view_bg_color;
+}
+
+/* ===== Notification banners/cards (3 stack tiers) ===== */
+.message {
+    background-color: @card_bg_color;
+}
+.message:second-in-stack {
+    background-color: @dialog_bg_color;
+}
+.message:lower-in-stack {
+    background-color: @card_bg_color;
+}
