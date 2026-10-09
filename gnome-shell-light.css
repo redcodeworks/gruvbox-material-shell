@@ -54,17 +54,17 @@
 .popup-menu-item:selected,
 .popup-menu-item:checked {
     color: @popover_fg_color;
-    background-color: st-darken(@popover_bg_color, 7%);
+    background-color: st-darken(#f9f5d7, 7%);
 }
 .popup-menu-item:active {
     color: @popover_fg_color;
-    background-color: st-darken(@popover_bg_color, 9%);
+    background-color: st-darken(#f9f5d7, 9%);
 }
 .popup-menu-item:active:hover {
-    background-color: st-darken(st-darken(@popover_bg_color, 9%), 7%);
+    background-color: st-darken(st-darken(#f9f5d7, 9%), 7%);
 }
 .popup-menu-item:insensitive {
-    color: st-transparentize(@popover_fg_color, 0.5);
+    color: st-transparentize(#4f3829, 0.5);
     background-color: @popover_bg_color;
 }
 
