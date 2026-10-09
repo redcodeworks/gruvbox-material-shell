@@ -11,46 +11,36 @@
  * Only color declarations live here, and only for the selectors that
  * actually carry a color in the stock file.
  *
+ * Literal hex throughout, not @define-color -- confirmed empirically
+ * (2026-10-09) that @define-color is a GTK CSS extension only, NOT part
+ * of St/Clutter's CSS implementation that GNOME Shell actually uses.
+ * Every token reference silently failed to resolve with no parse error
+ * logged, so every override here was being dropped and the whole theme
+ * rendered as plain stock Adwaita. Same class of mistake as the GTK3-vs-
+ * GTK4 selector syntax issue found earlier in this project -- assuming a
+ * CSS feature from one toolkit's engine works in a different one without
+ * verifying first.
+ *
  * Palette: Gruvbox Material (github.com/sainnhe/gruvbox-material),
  * "material" foreground variant, "hard" contrast background -- same
- * values and same token names as nox-dotfiles' gtk-4.0/gtk.css, so the
- * two layers are trivially easy to keep in sync by eye.
+ * values as nox-dotfiles' gtk-4.0/gtk.css:
+ *   accent_bg   #7daea3   accent_fg   #1d2021
+ *   window_bg   #282828   window_fg   #ddc7a1
+ *   view_bg     #1d2021   view_fg     #ddc7a1
+ *   card_bg     #3c3836   card_fg     #ddc7a1
+ *   dialog_bg   #504945   dialog_fg   #ddc7a1
+ *   popover_bg  #504945   popover_fg  #ddc7a1
+ *   panel_bg    #282828   panel_fg    #ddc7a1   (= window_bg/fg; own name
+ *                                                 since "panel" is a Shell
+ *                                                 concept, not a GTK4 one)
  */
-
-@define-color accent_bg_color #7daea3;
-@define-color accent_fg_color #1d2021;
-
-@define-color destructive_bg_color #ea6962;
-@define-color success_bg_color #a9b665;
-@define-color warning_bg_color #d8a657;
-@define-color error_bg_color #ea6962;
-
-@define-color window_bg_color #282828;
-@define-color window_fg_color #ddc7a1;
-
-@define-color view_bg_color #1d2021;
-@define-color view_fg_color #ddc7a1;
-
-@define-color card_bg_color #3c3836;
-@define-color card_fg_color #ddc7a1;
-
-@define-color dialog_bg_color #504945;
-@define-color dialog_fg_color #ddc7a1;
-
-@define-color popover_bg_color #504945;
-@define-color popover_fg_color #ddc7a1;
-
-/* Shell-specific: the top bar/dash/popup tier. Equals window_bg_color --
-   kept as its own token since "panel" is a Shell concept, not a GTK4 one. */
-@define-color panel_bg_color #282828;
-@define-color panel_fg_color #ddc7a1;
 
 /* ===== Top Bar ===== */
 #panel {
-    background-color: @panel_bg_color;
+    background-color: #282828;
 }
 #panel .panel-button {
-    color: @panel_fg_color;
+    color: #ddc7a1;
 }
 
 /* ===== Popup menus (Quick Settings, Calendar/date-menu, desktop
@@ -58,20 +48,29 @@
    rule -- confirmed via reference/gnome-shell-dark.css, none of them set
    their own background independently). ===== */
 .popup-menu {
-    color: @popover_fg_color;
+    color: #ddc7a1;
 }
 .popup-menu-content,
 .candidate-popup-content {
-    background-color: @popover_bg_color;
+    background-color: #504945;
+}
+/* Quick Settings, Calendar/date-menu, and the desktop right-click menu
+   are deliberately darker than regular context menus (matching the top
+   bar) -- stock treats all of these identically via the shared rule
+   above, but this distinction was established earlier in this project
+   and carried over from the validated Gruvbox-Dark theme. */
+.popup-menu.panel-menu .popup-menu-content,
+.background-menu .popup-menu-content {
+    background-color: #282828;
 }
 .popup-menu-item:hover,
 .popup-menu-item:selected,
 .popup-menu-item:checked {
-    color: @popover_fg_color;
+    color: #ddc7a1;
     background-color: st-lighten(#504945, 7%);
 }
 .popup-menu-item:active {
-    color: @popover_fg_color;
+    color: #ddc7a1;
     background-color: st-lighten(#504945, 9%);
 }
 .popup-menu-item:active:hover {
@@ -79,18 +78,18 @@
 }
 .popup-menu-item:insensitive {
     color: st-transparentize(#ddc7a1, 0.5);
-    background-color: @popover_bg_color;
+    background-color: #504945;
 }
 
 /* ===== Dash (stock #dash; dash-to-dock, if installed, replaces this
    actor entirely with its own but reuses the same .dash-background
    class when "Use built-in theme" is enabled) ===== */
 #dash .dash-background {
-    background-color: @panel_bg_color;
+    background-color: #282828;
 }
 #dashtodockContainer #dash .dash-background,
 #dashtodockContainer.dashtodock #dash .dash-background {
-    background-color: @panel_bg_color;
+    background-color: #282828;
 }
 
 /* ===== Tooltips (dash item labels, window captions, screenshot tooltips
@@ -98,19 +97,19 @@
 .dash-label,
 .window-caption,
 .screenshot-ui-tooltip {
-    background-color: @panel_bg_color;
-    color: @panel_fg_color;
+    background-color: #282828;
+    color: #fbf1c7;
 }
 
 /* ===== Overview background ===== */
 #overviewGroup {
-    background-color: @view_bg_color;
+    background-color: #282828;
 }
 
 /* ===== App folder dialog (app grid folder popup) ===== */
 .app-folder-dialog {
-    background-color: @card_bg_color;
-    color: @card_fg_color;
+    background-color: #3c3836;
+    color: #ddc7a1;
 }
 
 /* ===== OSD (volume/brightness popup), Alt-Tab switcher, workspace
@@ -119,25 +118,26 @@
 #LookingGlassDialog,
 .screenshot-ui-panel,
 .workspace-switcher,
+.workspace-switcher-container,
 .switcher-list,
 .resize-popup,
 .osd-window {
-    color: @panel_fg_color;
-    background-color: @panel_bg_color;
+    color: #ddc7a1;
+    background-color: #1d2021;
 }
 
 /* ===== Lock screen ===== */
 #lockDialogGroup {
-    background-color: @view_bg_color;
+    background-color: #1d2021;
 }
 
 /* ===== Notification banners/cards (3 stack tiers) ===== */
 .message {
-    background-color: @card_bg_color;
+    background-color: #3c3836;
 }
 .message:second-in-stack {
-    background-color: @dialog_bg_color;
+    background-color: #282828;
 }
 .message:lower-in-stack {
-    background-color: @card_bg_color;
+    background-color: #3c3836;
 }
