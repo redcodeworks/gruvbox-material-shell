@@ -57,6 +57,26 @@ EXCLUDE_PROPS = {
     # + forcing !important made EVERY unchecked toggle's text wrongly dark
     # (2026-10-09 regression). Exclude it; let unchecked toggles inherit.
     '.quick-toggle': {'color'},
+    # Fork hardcodes fixed-px spacing/padding around the Activities workspace
+    # dots; stock uses em-based values that scale with font size. Visibly
+    # different icon spacing vs stock Adwaita (2026-10-09 report) -- keep
+    # stock's own spacing instead of the fork's fixed values.
+    '#panel .panel-button#panelActivities StBoxLayout': {'padding', 'spacing'},
+    # Fork-only addition (stock never sets -natural-hpadding specifically for
+    # #panelActivities, only the generic .panel-button default) that widens
+    # the Activities button further, compounding the same spacing mismatch.
+    '#panel .panel-button#panelActivities': {'-natural-hpadding'},
+    # Same mismatch for the right-side system-status icons (VPN, disk,
+    # quick-settings grid, night light, keyboard, bluetooth, volume, power):
+    # stock uses em-scaled icon-size with horizontal-only padding/margin;
+    # fork hardcodes fixed px and switches margin/padding to all-sides,
+    # visibly different icon spacing vs stock Adwaita (2026-10-09 report).
+    '#panel .panel-button .system-status-icon': {'icon-size', 'margin', 'padding'},
+    # Generic panel-button horizontal padding: stock uses 12px (6px minimum
+    # under constraint), fork halves it to 6px flat -- affects every panel
+    # button's internal width, including the aggregated quick-settings
+    # button, compounding the same icon-spacing mismatch (2026-10-09).
+    '#panel .panel-button': {'-natural-hpadding'},
 }
 
 stock_path, fork_path = sys.argv[1], sys.argv[2]
@@ -76,8 +96,10 @@ for sel in fork_order:
             key = tuple(sorted(diff_props.items()))
             groups[key].append(sel)
     else:
-        key = tuple(sorted(fork_props.items()))
-        only_in_fork_groups[key].append(sel)
+        kept_props = {k: v for k, v in fork_props.items() if k not in excluded}
+        if kept_props:
+            key = tuple(sorted(kept_props.items()))
+            only_in_fork_groups[key].append(sel)
 
 
 # Properties that must win a same-specificity tie against stock's own

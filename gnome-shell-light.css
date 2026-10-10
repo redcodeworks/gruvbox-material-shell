@@ -1,10 +1,7 @@
 /* Gruvbox Material recolor of real GNOME Shell CSS (light mode).
- * See gnome-shell-dark.css for the full explanation of this approach and
- * how this file was generated (diffed against ~/.themes/Gruvbox-Light/
- * gnome-shell/gnome-shell.css rather than hand-authored).
- */
-
-/* recolored/restyled vs stock (all differing properties): 499 selectors, 282 unique rule(s) */
+ * See gnome-shell-dark.css for the full explanation of how this file is
+ * generated. */
+/* recolored/restyled vs stock (all differing properties): 498 selectors, 280 unique rule(s) */
 stage {
     color: rgba(29, 32, 33, 0.87) !important;
     font-size: 11ptpt;
@@ -674,7 +671,6 @@ StEntry StLabel.hint-text,
     font-size: 11ptpt;
 }
 #panel .panel-button {
-    -natural-hpadding: 6px;
     border-radius: 12px;
     box-shadow: none;
     color: rgba(29, 32, 33, 0.6) !important;
@@ -704,15 +700,9 @@ StEntry StLabel.hint-text,
     box-shadow: inset 0 0 0 1000px rgba(204, 198, 170, 0.6324);
     color: #45707a !important;
 }
-#panel .panel-button .system-status-icon {
+#panel .panel-button .system-status-icon,
+.message .message-box .message-icon {
     -st-icon-style: symbolic;
-    icon-size: 16px;
-    margin: 0;
-    padding: 6px;
-}
-#panel .panel-button#panelActivities StBoxLayout {
-    padding: 0 3px;
-    spacing: 6px;
 }
 #panel .panel-button#panelActivities .workspace-dot {
     background-color: rgba(29, 32, 33, 0.87) !important;
@@ -1259,9 +1249,6 @@ StScrollBar StBin#trough {
 .message .message-box {
     margin: 6px;
 }
-.message .message-box .message-icon {
-    -st-icon-style: symbolic;
-}
 .message .message-box .message-icon.message-themed-icon {
     background-color: rgba(29, 32, 33, 0.12) !important;
     border-radius: 9999px;
@@ -1603,7 +1590,7 @@ StScrollBar StBin#trough {
     padding: 0px;
 }
 
-/* fork-only (extension integration, e.g. dash-to-dock): 793 selectors, 314 unique rule(s) */
+/* fork-only (extension integration, e.g. dash-to-dock): 792 selectors, 313 unique rule(s) */
 .lg-debug-flags-header {
     font-size: 15pt;
     font-weight: 800;
@@ -2499,9 +2486,6 @@ StScrollBar StButton#hhandle:active {
 #panel .panel-button .app-menu-icon {
     -st-icon-style: symbolic;
 }
-#panel .panel-button#panelActivities {
-    -natural-hpadding: 18px;
-}
 #panel.lock-screen {
     background-color: transparent;
     border: none;
@@ -2673,12 +2657,6 @@ StScrollBar StButton#hhandle:active {
 #dashtodockContainer.dashtodock #dash .dash-background,
 #dashtodockContainer #dash .dash-background {
     background-color: #f5edca;
-}
-/* See gnome-shell-dark.css for the full explanation -- setting both the
- * shorthand and the canonical longhand !important here. */
-#dashtodockContainer.dashtodock #dash .dash-background {
-    background: #f5edca !important;
-    background-color: #f5edca !important;
 }
 .popup-menu-ornament:ltr,
 .world-clocks-button .world-clocks-time:ltr {
